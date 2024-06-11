@@ -32,3 +32,17 @@ tasks.withType<Jar> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+jlink {
+	imageName.set("stf-${project.version}")
+
+	targetPlatform("linux-amd64") {
+		setJdkHome(jdkDownload("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.3_9.tar.gz"))
+	}
+	targetPlatform("windows-amd64") {
+		setJdkHome(jdkDownload("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_x64_windows_hotspot_21.0.3_9.zip"))
+	}
+	targetPlatform("mac-aarch64") {
+		setJdkHome(jdkDownload("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.3_9.tar.gz"))
+	}
+}
