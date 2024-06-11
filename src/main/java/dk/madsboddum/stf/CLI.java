@@ -104,7 +104,7 @@ public class CLI {
 	private static void printHelp(OutputStream out, Options options) {
 		HelpFormatter formatter = new HelpFormatter();
 		PrintWriter writer = new PrintWriter(out);
-		formatter.printHelp(writer, formatter.getWidth(), "stf", null, options, formatter.getLeftPadding(), formatter.getDescPadding(), null, true);
+		formatter.printHelp(writer, formatter.getWidth(), "stf [OPTION]... [FILE]...", "Prints FILE(s) to standard output.", options, formatter.getLeftPadding(), formatter.getDescPadding(), "VCS: https://github.com/madsboddum/stf", false);
 		writer.flush();
 	}
 }
