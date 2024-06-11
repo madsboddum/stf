@@ -1,6 +1,7 @@
 plugins {
 	id("java")
 	id("application")
+	id("org.beryx.jlink") version "3.0.1"
 }
 
 group = "dk.madsboddum"
@@ -19,6 +20,7 @@ dependencies {
 
 application {
 	mainClass.set("dk.madsboddum.stf.Application")
+	mainModule.set("dk.madsboddum.stf.cli")
 }
 
 tasks.withType<Jar> {
