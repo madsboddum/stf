@@ -6,7 +6,7 @@ A stf file contains localizations for a specific language.
 ## Installation
 The tool requires Java 21 or newer.
 
-You can download the tool under Releases. 
+You can download the tool on the [Releases page](https://github.com/madsboddum/stf/releases). 
 
 ### Globally available in shells
 ```shell script
