@@ -1,10 +1,5 @@
 package dk.madsboddum.stf;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class Application {
@@ -16,18 +11,7 @@ public class Application {
 			version = "DEVELOPMENT VERSION";	// If we're not running from a JAR, then we're in development
 		}
 
-		CLI cli = new CLI(version, System.out, System.err, (String path) -> {
-			File file = new File(path);
-
-			InputStream stream;
-			try {
-				stream = new FileInputStream(file);
-			} catch (FileNotFoundException e) {
-				throw new RuntimeException(e);
-			}
-
-			return new StringTableStream(Paths.get(path).getFileName().toString(), stream);
-		});
+		CLI cli = new CLI(version, System.out, System.err);
 
 		int exitCode = cli.execute(Arrays.asList(args));
 		System.exit(exitCode);

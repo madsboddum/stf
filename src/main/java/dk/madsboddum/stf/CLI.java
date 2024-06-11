@@ -2,25 +2,20 @@ package dk.madsboddum.stf;
 
 import org.apache.commons.cli.*;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class CLI {
 	private final String version;
 	private final OutputStream out;
 	private final OutputStream err;
-	private final Function<String, StringTableStream> streamCreator;
 	private final StringTableReader stringTableReader;
 	
-	CLI(String version, OutputStream out, OutputStream err, Function<String, StringTableStream> streamCreator) {
+	CLI(String version, OutputStream out, OutputStream err) {
 		this.version = version;
 		this.out = out;
 		this.err = err;
-		this.streamCreator = streamCreator;
 		this.stringTableReader = new StringTableReader();
 	}
 	
@@ -76,13 +71,13 @@ public class CLI {
 			PrintWriter pw = new PrintWriter(out);
 
 			for (String inputValue : inputValues) {
-				StringTableStream stringTableStream = streamCreator.apply(inputValue);
+				File file = new File(inputValue);
 
-				try (InputStream inputStream = stringTableStream.getInputStream()) {
+				try (InputStream inputStream = new FileInputStream(file)) {
 					Map<String, String> map = stringTableReader.read(inputStream);
 
 					map.forEach((key, value) -> {
-						String stringTableName = stringTableStream.getName();
+						String stringTableName = file.getName();
 
 						pw.println("@" + stringTableName + ":" + key + "|" + value);    // Example: @base_player:attribmod_apply|You suddenly feel different.
 					});

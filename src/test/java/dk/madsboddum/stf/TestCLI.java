@@ -3,7 +3,6 @@ package dk.madsboddum.stf;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,7 @@ public class TestCLI {
 		void testWithoutInput() {
 			OutputStream out = new ByteArrayOutputStream();
 			OutputStream err = new ByteArrayOutputStream();
-			CLI cli = new CLI("1.2.3", out, err, (path) -> new StringTableStream("test", new ByteArrayInputStream(new byte[0])));
+			CLI cli = new CLI("1.2.3", out, err);
 			int actualExitCode = cli.execute(Collections.emptyList());
 			int expectedExitCode = 1;
 			
@@ -31,24 +30,24 @@ public class TestCLI {
 		
 		@Test
 		void testWithSingleFile() {
-			OutputStream out = new ByteArrayOutputStream();
-			OutputStream err = new ByteArrayOutputStream();
-			CLI cli = new CLI("1.2.3", out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.class.getResourceAsStream(path)));
-			int actualExitCode = cli.execute(List.of("base_player.stf"));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ByteArrayOutputStream err = new ByteArrayOutputStream();
+			CLI cli = new CLI("1.2.3", out, err);
+			int actualExitCode = cli.execute(List.of(TestCLI.class.getResource("base_player.stf").getFile()));
 			int expectedExitCode = 0;
 			
-			assertEquals(expectedExitCode, actualExitCode, "If input files are specified, then the application should run successfully");
+			assertEquals(expectedExitCode, actualExitCode, err.toString(StandardCharsets.UTF_8));
 		}
 		
 		@Test
 		void testWithMultipleFiles() {
-			OutputStream out = new ByteArrayOutputStream();
-			OutputStream err = new ByteArrayOutputStream();
-			CLI cli = new CLI("1.2.3", out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.class.getResourceAsStream(path)));
-			int actualExitCode = cli.execute(List.of("base_player.stf", "base_player2.stf"));
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ByteArrayOutputStream err = new ByteArrayOutputStream();
+			CLI cli = new CLI("1.2.3", out, err);
+			int actualExitCode = cli.execute(List.of(TestCLI.class.getResource("base_player.stf").getFile(), TestCLI.class.getResource("base_player2.stf").getFile()));
 			int expectedExitCode = 0;
 			
-			assertEquals(expectedExitCode, actualExitCode, "If input files are specified, then the application should run successfully");
+			assertEquals(expectedExitCode, actualExitCode, err.toString(StandardCharsets.UTF_8));
 		}
 	}
 	
@@ -59,7 +58,7 @@ public class TestCLI {
 		void testMessageContainsVersion() {
 			String version = "1.2.3";
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			CLI cli = new CLI(version, out, System.err, null);
+			CLI cli = new CLI(version, out, System.err);
 			
 			cli.execute(List.of("--version"));
 			String message = out.toString(StandardCharsets.UTF_8);
