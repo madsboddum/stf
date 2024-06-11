@@ -15,12 +15,14 @@ public class CLI {
 	private final OutputStream out;
 	private final OutputStream err;
 	private final Function<String, StringTableStream> streamCreator;
+	private final ModelProvider modelProvider;
 	
 	CLI(String version, OutputStream out, OutputStream err, Function<String, StringTableStream> streamCreator) {
 		this.version = version;
 		this.out = out;
 		this.err = err;
 		this.streamCreator = streamCreator;
+		this.modelProvider = new ModelProvider();
 	}
 	
 	public int execute(List<String> args) {
@@ -71,8 +73,7 @@ public class CLI {
 					StringTableStream stringTableStream = streamCreator.apply(inputValue);
 
 					try (InputStream inputStream = stringTableStream.getInputStream()) {
-						ModelProvider modelProvider = new ModelProvider(inputStream);
-						StringTable stringTable = modelProvider.get();
+						StringTable stringTable = modelProvider.get(inputStream);
 
 						if (cmd.hasOption("print")) {
 							Map<String, String> map = stringTable.getMap();

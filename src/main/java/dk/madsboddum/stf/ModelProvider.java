@@ -15,13 +15,7 @@ import java.util.Map;
 class ModelProvider {
 	private static final int STF_HEADER = 0x0000ABCD;
 	
-	private final InputStream inputStream;
-	
-	ModelProvider(InputStream inputStream) {
-		this.inputStream = inputStream;
-	}
-	
-	StringTable get() throws IOException {
+	StringTable get(InputStream inputStream) throws IOException {
 		StringTable stringTable = new StringTable();
 		
 		ByteBuffer buffer = ByteBuffer.wrap(inputStream.readAllBytes())

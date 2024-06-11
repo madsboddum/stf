@@ -20,8 +20,8 @@ public class TestModelProvider {
 		@BeforeEach
 		void setup() throws IOException {
 			InputStream stream = TestModelProvider.class.getResourceAsStream("base_player.stf");
-			provider = new ModelProvider(stream);
-			stringTable = provider.get();
+			provider = new ModelProvider();
+			stringTable = provider.get(stream);
 		}
 		
 		@Test
