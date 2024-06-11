@@ -44,7 +44,7 @@ public class CLI {
 				cmd = parser.parse(options, args.toArray(new String[0]), true);
 			} catch (ParseException e) {
 				// Invalid syntax
-				PrintWriter pw = new PrintWriter(out);
+				PrintWriter pw = new PrintWriter(err);
 				pw.println(e.getMessage());
 				pw.close();
 				printHelp(err, options);	// Let's try to help the user along
