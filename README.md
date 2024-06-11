@@ -36,3 +36,7 @@ We want to know how many files are in greeting.stf
 $ stf -i greeting.stf -p | wc -l
 4
 ```
+
+## Creating releases
+
+Simply push a new git tag and the CI will create a new release with the tag as the version number. Could be "v1.0.0" for example.
