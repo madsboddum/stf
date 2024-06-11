@@ -68,6 +68,8 @@ public class CLI {
 			List<String> inputValues = cmd.getArgList();
 
 			if (inputValues.isEmpty()) {
+				// Help them out
+				printHelp(out, options);
 				return 1;
 			}
 			
@@ -102,7 +104,7 @@ public class CLI {
 	private static void printHelp(OutputStream out, Options options) {
 		HelpFormatter formatter = new HelpFormatter();
 		PrintWriter writer = new PrintWriter(out);
-		formatter.printHelp(writer, formatter.getWidth(), "stf", null, options, formatter.getLeftPadding(), formatter.getDescPadding(), null, false);
+		formatter.printHelp(writer, formatter.getWidth(), "stf", null, options, formatter.getLeftPadding(), formatter.getDescPadding(), null, true);
 		writer.flush();
 	}
 }
