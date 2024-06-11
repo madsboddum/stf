@@ -20,10 +20,9 @@ jobs:
           java-version: 21
           
       - name: Build
-#        run: ./gradlew -Pversion=${GITHUB_REF_NAME} clean build
-        run: echo "Building with version ${GITHUB_REF_NAME}"
+        run: ./gradlew -Pversion=${GITHUB_REF_NAME} clean build
           
-#      - name: Create Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: build/distributions/*
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/distributions/*
