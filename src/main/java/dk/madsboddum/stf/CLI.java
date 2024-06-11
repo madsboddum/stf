@@ -15,14 +15,14 @@ public class CLI {
 	private final OutputStream out;
 	private final OutputStream err;
 	private final Function<String, StringTableStream> streamCreator;
-	private final ModelProvider modelProvider;
+	private final StringTableReader stringTableReader;
 	
 	CLI(String version, OutputStream out, OutputStream err, Function<String, StringTableStream> streamCreator) {
 		this.version = version;
 		this.out = out;
 		this.err = err;
 		this.streamCreator = streamCreator;
-		this.modelProvider = new ModelProvider();
+		this.stringTableReader = new StringTableReader();
 	}
 	
 	public int execute(List<String> args) {
@@ -30,17 +30,6 @@ public class CLI {
 			Options options = new Options();
 
 			// Options
-			Option print = new Option("p", "print", false, "print entries in the STF file specified as arguments");
-			print.setRequired(false);
-			options.addOption(print);
-
-			Option input = new Option("i", "input", true, "specifies STF file(s) to work on");
-			input.setRequired(false);
-			input.setArgName("stf files");
-			input.setArgs(Option.UNLIMITED_VALUES);
-			input.setValueSeparator(',');
-			options.addOption(input);
-
 			Option help = new Option("h", "help", false, "lists possible options (what you're seeing now)");
 			help.setRequired(false);
 			options.addOption(help);
@@ -89,17 +78,15 @@ public class CLI {
 				StringTableStream stringTableStream = streamCreator.apply(inputValue);
 
 				try (InputStream inputStream = stringTableStream.getInputStream()) {
-					StringTable stringTable = modelProvider.get(inputStream);
+					StringTable stringTable = stringTableReader.read(inputStream);
 
-					if (cmd.hasOption("print")) {
-						Map<String, String> map = stringTable.getMap();
+					Map<String, String> map = stringTable.getMap();
 
-						map.forEach((key, value) -> {
-							String stringTableName = stringTableStream.getName();
+					map.forEach((key, value) -> {
+						String stringTableName = stringTableStream.getName();
 
-							pw.println("@" + stringTableName + ":" + key + "|" + value);    // Example: @base_player:attribmod_apply|You suddenly feel different.
-						});
-					}
+						pw.println("@" + stringTableName + ":" + key + "|" + value);    // Example: @base_player:attribmod_apply|You suddenly feel different.
+					});
 				}
 			}
 

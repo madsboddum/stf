@@ -12,10 +12,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-class ModelProvider {
+class StringTableReader {
 	private static final int STF_HEADER = 0x0000ABCD;
 	
-	StringTable get(InputStream inputStream) throws IOException {
+	StringTable read(InputStream inputStream) throws IOException {
 		StringTable stringTable = new StringTable();
 		
 		ByteBuffer buffer = ByteBuffer.wrap(inputStream.readAllBytes())

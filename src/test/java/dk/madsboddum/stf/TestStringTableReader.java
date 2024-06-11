@@ -11,17 +11,17 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestModelProvider {
+public class TestStringTableReader {
 	@Nested
 	class Read {
-		ModelProvider provider;
+		StringTableReader provider;
 		StringTable stringTable;
 		
 		@BeforeEach
 		void setup() throws IOException {
-			InputStream stream = TestModelProvider.class.getResourceAsStream("base_player.stf");
-			provider = new ModelProvider();
-			stringTable = provider.get(stream);
+			InputStream stream = TestStringTableReader.class.getResourceAsStream("base_player.stf");
+			provider = new StringTableReader();
+			stringTable = provider.read(stream);
 		}
 		
 		@Test
