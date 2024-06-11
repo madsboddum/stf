@@ -1,4 +1,4 @@
-package dk.madsboddum.stf.model;
+package dk.madsboddum.stf;
 
 import java.util.HashMap;
 import java.util.Map;

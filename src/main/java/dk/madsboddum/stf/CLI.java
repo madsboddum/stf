@@ -1,6 +1,5 @@
 package dk.madsboddum.stf;
 
-import dk.madsboddum.stf.model.StringTable;
 import org.apache.commons.cli.*;
 
 import java.io.InputStream;
