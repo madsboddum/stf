@@ -39,4 +39,6 @@ $ stf greeting.stf | wc -l
 
 ## Creating releases
 
-Simply push a new git tag and the CI will create a new release with the tag as the version number. Could be "v1.0.0" for example.
+Simply push a new git tag and the CI will create a new release with the tag as the version number. Could be "1.0.0" for example.
+
+Make sure the version string works - it's broken with "v1.0.0" for example. Test by quickly hardcoding the version in the build.gradle.kts file.
