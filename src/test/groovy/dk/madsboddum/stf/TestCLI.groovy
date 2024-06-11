@@ -17,7 +17,7 @@ class TestCLI {
 		void testWithoutInput() {
 			def out = new ByteArrayOutputStream()
 			def err = new ByteArrayOutputStream()
-			def cli = new CLI(out, err, () -> new StringTableStream("test", new ByteArrayInputStream()))
+			def cli = new CLI("1.2.3", out, err, () -> new StringTableStream("test", new ByteArrayInputStream()))
 			def actualExitCode = cli.execute(["--print"])
 			def expectedExitCode = 1
 			
@@ -28,7 +28,7 @@ class TestCLI {
 		void testWithInput() {
 			def out = new ByteArrayOutputStream()
 			def err = new ByteArrayOutputStream()
-			def cli = new CLI(out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.getResourceAsStream(path)))
+			def cli = new CLI("1.2.3", out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.getResourceAsStream(path)))
 			def actualExitCode = cli.execute(["--input", "base_player.stf", "--print"])
 			def expectedExitCode = 0
 			
@@ -41,19 +41,14 @@ class TestCLI {
 		
 		@Test
 		void testMessageContainsVersion() {
-			def properties = new Properties()
-		
-			properties.load(TestCLI.classLoader.getResourceAsStream("version.properties"))
-			
-			String version = properties.get("version")
-			
+			def version = "1.2.3"
 			def out = new ByteArrayOutputStream()
-			def cli = new CLI(out, System.err, null)
+			def cli = new CLI(version, out, System.err, null)
 			
 			cli.execute(["--version"])
 			def message = new String(out.toByteArray(), StandardCharsets.UTF_8)
 			
-			assertTrue(message.contains(version), "The printed message should contain the version")
+			assertTrue(message.contains(version), "The printed message should contain the version. Message was: $message")
 		}
 	}
 	

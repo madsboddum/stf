@@ -9,11 +9,13 @@ import org.apache.commons.cli.ParseException
 import java.util.function.Function
 
 class CLI {
+	private final String version;
 	private final OutputStream out
 	private final OutputStream err
 	private final Function<String, StringTableStream> streamCreator
 	
-	CLI(OutputStream out, OutputStream err, Function<String, StringTableStream> streamCreator) {
+	CLI(String version, OutputStream out, OutputStream err, Function<String, StringTableStream> streamCreator) {
+		this.version = version;
 		this.out = out
 		this.err = err
 		this.streamCreator = streamCreator
@@ -92,14 +94,9 @@ class CLI {
 			
 			return 0
 		} else if (cmd.hasOption("version")) {
-			// Grab version
-			def versionProps = new Properties()
-			versionProps.load(Application.getClassLoader().getResourceAsStream("version.properties"))
-			def versionId = versionProps.get("version");
-			
 			// Print message with the version
 			def pw = new PrintWriter(out)
-			pw.println("stf version " + versionId)
+			pw.println("stf version " + this.version)	// TODO a bit ugly, but "version" exists in two scopes with different meanings
 			pw.close()
 			
 			return 0

@@ -4,13 +4,13 @@ stf is a command line tool for working with **S**tring **T**able **F**iles found
 A stf file contains localizations for a specific language.
 
 ## Installation
-The tool requires Java SE 13 or newer.
+The tool requires Java 21 or newer.
 
 You can download the tool under Releases. 
 
 ### Globally available in shells
 ```shell script
-$ sudo ln -s /path/to/stf.sh /usr/bin/stf
+$ sudo ln -s /path/to/stf /usr/bin/stf
 ```
 
 ## Examples
