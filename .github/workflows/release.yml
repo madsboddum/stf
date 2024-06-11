@@ -20,7 +20,7 @@ jobs:
           java-version: 21
           
       - name: Build
-        run: ./gradlew -Pversion=${GITHUB_REF_NAME} clean build
+        run: ./gradlew -Pversion=${GITHUB_REF_NAME} clean jlinkZip
           
       - name: Create Release
         uses: softprops/action-gh-release@v2
