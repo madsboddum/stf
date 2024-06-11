@@ -25,7 +25,7 @@ public class TestCLI {
 			int actualExitCode = cli.execute(List.of("--print"));
 			int expectedExitCode = 1;
 			
-			assertEquals(actualExitCode, expectedExitCode, "If --input is not specified, then the application should fail");
+			assertEquals(expectedExitCode, actualExitCode, "If input are not specified, then the application should fail");
 		}
 		
 		@Test
@@ -33,10 +33,10 @@ public class TestCLI {
 			OutputStream out = new ByteArrayOutputStream();
 			OutputStream err = new ByteArrayOutputStream();
 			CLI cli = new CLI("1.2.3", out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.class.getResourceAsStream(path)));
-			int actualExitCode = cli.execute(List.of("--input", "base_player.stf", "--print"));
+			int actualExitCode = cli.execute(List.of("--print", "base_player.stf"));
 			int expectedExitCode = 0;
 			
-			assertEquals(expectedExitCode, actualExitCode, "If --input is specified, then the application should run successfully");
+			assertEquals(expectedExitCode, actualExitCode, "If input files are specified, then the application should run successfully");
 		}
 	}
 	

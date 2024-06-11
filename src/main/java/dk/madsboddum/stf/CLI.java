@@ -30,7 +30,7 @@ public class CLI {
 			Options options = new Options();
 
 			// Options
-			Option print = new Option("p", "print", false, "print entries in the STF file specified by --input");
+			Option print = new Option("p", "print", false, "print entries in the STF file specified as arguments");
 			print.setRequired(false);
 			options.addOption(print);
 
@@ -64,33 +64,7 @@ public class CLI {
 				return 1;
 			}
 
-			if (cmd.hasOption("input")) {
-				String[] inputValues = cmd.getOptionValues("input");
-
-				PrintWriter pw = new PrintWriter(out);
-
-				for (String inputValue : inputValues) {
-					StringTableStream stringTableStream = streamCreator.apply(inputValue);
-
-					try (InputStream inputStream = stringTableStream.getInputStream()) {
-						StringTable stringTable = modelProvider.get(inputStream);
-
-						if (cmd.hasOption("print")) {
-							Map<String, String> map = stringTable.getMap();
-
-							map.forEach((key, value) -> {
-								String stringTableName = stringTableStream.getName();
-
-								pw.println("@" + stringTableName + ":" + key + "|" + value);    // Example: @base_player:attribmod_apply|You suddenly feel different.
-							});
-						}
-					}
-				}
-
-				pw.close();
-
-				return 0;
-			} else if (cmd.hasOption("version")) {
+			if (cmd.hasOption("version")) {
 				// Print message with the version
 				PrintWriter pw = new PrintWriter(out);
 				pw.println("stf version " + this.version);	// TODO a bit ugly, but "version" exists in two scopes with different meanings
@@ -103,7 +77,35 @@ public class CLI {
 				return 0;
 			}
 
-			return 1;
+			List<String> inputValues = cmd.getArgList();
+
+			if (inputValues.isEmpty()) {
+				return 1;
+			}
+			
+			PrintWriter pw = new PrintWriter(out);
+
+			for (String inputValue : inputValues) {
+				StringTableStream stringTableStream = streamCreator.apply(inputValue);
+
+				try (InputStream inputStream = stringTableStream.getInputStream()) {
+					StringTable stringTable = modelProvider.get(inputStream);
+
+					if (cmd.hasOption("print")) {
+						Map<String, String> map = stringTable.getMap();
+
+						map.forEach((key, value) -> {
+							String stringTableName = stringTableStream.getName();
+
+							pw.println("@" + stringTableName + ":" + key + "|" + value);    // Example: @base_player:attribmod_apply|You suddenly feel different.
+						});
+					}
+				}
+			}
+
+			pw.close();
+
+			return 0;
 		} catch (Throwable t) {
 			PrintWriter pw = new PrintWriter(err);
 			pw.println("An unexpected error occurred: " + t.getMessage());
