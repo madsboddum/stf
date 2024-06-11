@@ -11,10 +11,10 @@ repositories {
 
 dependencies {
 	// https://mvnrepository.com/artifact/commons-cli/commons-cli
-	implementation("commons-cli:commons-cli:1.4")
+	implementation("commons-cli:commons-cli:1.8.0")
 	
-	testImplementation("org.junit.jupiter:junit-jupiter-api:5.1.1")
-	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.1.1")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }
 
 application {
