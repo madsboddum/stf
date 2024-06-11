@@ -19,7 +19,7 @@ public class Application {
 		CLI cli = new CLI(version, System.out, System.err, (String path) -> {
 			File file = new File(path);
 
-			InputStream stream = null;
+			InputStream stream;
 			try {
 				stream = new FileInputStream(file);
 			} catch (FileNotFoundException e) {

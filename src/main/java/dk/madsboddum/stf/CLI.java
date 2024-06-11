@@ -77,9 +77,7 @@ public class CLI {
 				StringTableStream stringTableStream = streamCreator.apply(inputValue);
 
 				try (InputStream inputStream = stringTableStream.getInputStream()) {
-					StringTable stringTable = stringTableReader.read(inputStream);
-
-					Map<String, String> map = stringTable.getMap();
+					Map<String, String> map = stringTableReader.read(inputStream);
 
 					map.forEach((key, value) -> {
 						String stringTableName = stringTableStream.getName();

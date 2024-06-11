@@ -13,8 +13,14 @@ import java.util.Map;
 public class StringTableReader {
 	private static final int STF_HEADER = 0x0000ABCD;
 
-	public StringTable read(InputStream inputStream) throws IOException {
-		StringTable stringTable = new StringTable();
+	/**
+	 * Reads a Star Wars Galaxies(TM) string table from an input stream.
+	 * @param inputStream The input stream to read from
+	 * @return A map of keys and values in the string table
+	 * @throws IOException If an I/O error occurs
+	 */
+	public Map<String, String> read(InputStream inputStream) throws IOException {
+		Map<String, String> stringTable = new HashMap<>();
 		
 		ByteBuffer buffer = ByteBuffer.wrap(inputStream.readAllBytes())
 			.order(ByteOrder.LITTLE_ENDIAN);

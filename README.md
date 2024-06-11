@@ -19,13 +19,13 @@ Here are some examples of use cases for the tool.
 ### Searching
 Search "hello" in a file named greeting.stf
 ```shell script
-$ stf -p greeting.stf | grep "hello"
+$ stf greeting.stf | grep "hello"
 @greeting.stf:hello|Hello, World!
 ```
 
 Search "hello" in all .stf files in the current directory as well as any subdirectory
 ```shell script
-$ stf -p **.stf | grep "hello"
+$ stf **.stf | grep "hello"
 @greeting.stf:hello|Hello, World!
 @altgreet.stf:hello|Greetings.
 ```
@@ -33,7 +33,7 @@ $ stf -p **.stf | grep "hello"
 ### Counting amount of entries in a stf file
 We want to know how many files are in greeting.stf
 ```shell script
-$ stf -p greeting.stf | wc -l
+$ stf greeting.stf | wc -l
 4
 ```
 

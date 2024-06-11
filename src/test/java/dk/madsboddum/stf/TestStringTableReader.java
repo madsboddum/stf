@@ -14,37 +14,33 @@ public class TestStringTableReader {
 	@Nested
 	class Read {
 		StringTableReader provider;
-		StringTable stringTable;
+		Map<String, String> map;
 		
 		@BeforeEach
 		void setup() throws IOException {
 			InputStream stream = TestStringTableReader.class.getResourceAsStream("base_player.stf");
 			provider = new StringTableReader();
-			stringTable = provider.read(stream);
+			map = provider.read(stream);
 		}
 		
 		@Test
 		void testAmount() {
-			assertEquals(315, stringTable.size(), "base_player.stf contains 315 entries, so there should be 315 entries in the model object");
+			assertEquals(315, map.size(), "base_player.stf contains 315 entries, so there should be 315 entries in the model object");
 		}
 		
 		@Test
 		void testNoNullKeys() {
-			Map<String, String> map = stringTable.getMap();
-			
 			assertFalse(map.containsKey(null), map.get(null) + " value had null key");
 		}
 		
 		@Test
 		void testNoNullValues() {
-			Map<String, String> map = stringTable.getMap();
-			
 			assertFalse(map.containsValue(null));
 		}
 		
 		@Test
 		void testEscapeLineBreaks() {
-			String text = stringTable.get("sui_bind_prompt_cash");	// Known value that has line breaks
+			String text = map.get("sui_bind_prompt_cash");	// Known value that has line breaks
 			
 			assertFalse(text.contains("\n"));	// Should be escaped to \\n
 		}

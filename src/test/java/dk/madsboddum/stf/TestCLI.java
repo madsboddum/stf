@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,18 +23,29 @@ public class TestCLI {
 			OutputStream out = new ByteArrayOutputStream();
 			OutputStream err = new ByteArrayOutputStream();
 			CLI cli = new CLI("1.2.3", out, err, (path) -> new StringTableStream("test", new ByteArrayInputStream(new byte[0])));
-			int actualExitCode = cli.execute(List.of("--print"));
+			int actualExitCode = cli.execute(Collections.emptyList());
 			int expectedExitCode = 1;
 			
-			assertEquals(expectedExitCode, actualExitCode, "If input are not specified, then the application should fail");
+			assertEquals(expectedExitCode, actualExitCode, "If input is not specified, then the application should fail");
 		}
 		
 		@Test
-		void testWithInput() {
+		void testWithSingleFile() {
 			OutputStream out = new ByteArrayOutputStream();
 			OutputStream err = new ByteArrayOutputStream();
 			CLI cli = new CLI("1.2.3", out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.class.getResourceAsStream(path)));
-			int actualExitCode = cli.execute(List.of("--print", "base_player.stf"));
+			int actualExitCode = cli.execute(List.of("base_player.stf"));
+			int expectedExitCode = 0;
+			
+			assertEquals(expectedExitCode, actualExitCode, "If input files are specified, then the application should run successfully");
+		}
+		
+		@Test
+		void testWithMultipleFiles() {
+			OutputStream out = new ByteArrayOutputStream();
+			OutputStream err = new ByteArrayOutputStream();
+			CLI cli = new CLI("1.2.3", out, err, (String path) -> new StringTableStream("base_player.stf", TestCLI.class.getResourceAsStream(path)));
+			int actualExitCode = cli.execute(List.of("base_player.stf", "base_player2.stf"));
 			int expectedExitCode = 0;
 			
 			assertEquals(expectedExitCode, actualExitCode, "If input files are specified, then the application should run successfully");
